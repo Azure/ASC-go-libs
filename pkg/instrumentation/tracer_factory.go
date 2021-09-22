@@ -12,15 +12,20 @@ import (
 type TraceType string
 
 const (
-	HeartbeatTraceType TraceType = "Heartbeat"
-	MessageTraceType   TraceType = "Trace"
+	HEARTBEAT_TRACE_TYPE TraceType = "Heartbeat"
+	MESSAGE_TRACE_TYPE   TraceType = "Trace"
 )
 
 // TracerFactory - Interface for creating tracer entry objects
 type TracerFactory interface {
+	// CreateTracer - Method for creating a tracer entry that can be used to send traces
 	CreateTracer(tracerType TraceType) *log.Entry
+	// DeleteTracerFile - delete the tracer's log file
 	DeleteTracerFile() error
 }
+
+// TracerFactoryImpl implements TracerFactory interface
+var _ TracerFactory = (*TracerFactoryImpl)(nil)
 
 // TracerFactoryImpl a factory for creating a tracer entry
 type TracerFactoryImpl struct {
@@ -49,7 +54,7 @@ func (tracerFactory *TracerFactoryImpl) DeleteTracerFile() error {
 	return os.Remove(logFilePath)
 }
 
-// CreateLogger - Method for creating a tracer entry that can be use to send traces
+// CreateTracer - Method for creating a tracer entry that can be used to send traces
 func (tracerFactory *TracerFactoryImpl) CreateTracer(tracerType TraceType) *log.Entry {
 	log.SetFormatter(&log.JSONFormatter{
 		FieldMap: log.FieldMap{

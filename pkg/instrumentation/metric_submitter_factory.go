@@ -4,12 +4,21 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// TODO doc
 type imageName = string
+
+// TODO doc
+
 type imageVersion = string
 
+// MetricSubmitterFactory is factory for metric submitter
 type MetricSubmitterFactory interface {
+	// createMetricSubmitter creates MetricSubmitter.
 	createMetricSubmitter() MetricSubmitter
 }
+
+// MetricSubmitterFactoryImpl implements MetricSubmitterFactory interface
+var _ MetricSubmitterFactory = (*MetricSubmitterFactoryImpl)(nil)
 
 // MetricSubmitterFactoryImpl a factory for creating a metric submitter
 type MetricSubmitterFactoryImpl struct {

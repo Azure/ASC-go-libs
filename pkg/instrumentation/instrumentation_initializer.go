@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	heartbeatInterval = time.Minute * 5
+	_heartbeatInterval = time.Minute * 5
 )
 
 // InstrumentationInitializer helper object to initialize the instrumentation platform
@@ -15,7 +15,7 @@ type InstrumentationInitializer struct {
 	configuration *InstrumentationConfiguration
 }
 
-// InstrumentationInitializationResult - aggregative type for all initialization result objects
+// InstrumentationInitializationResult - aggregate type for all initialization result objects
 type InstrumentationInitializationResult struct {
 	MetricSubmitter MetricSubmitter
 	Tracer          *log.Entry
@@ -32,7 +32,7 @@ func NewInstrumentationInitializer(configuration *InstrumentationConfiguration) 
 func (initializer *InstrumentationInitializer) Initialize() (*InstrumentationInitializationResult, error) {
 	tracerFactory := NewTracerFactory(initializer.configuration)
 
-	tracer := tracerFactory.CreateTracer(MessageTraceType)
+	tracer := tracerFactory.CreateTracer(MESSAGE_TRACE_TYPE)
 
 	metricSubmitterFactory, err := NewMetricSubmitterFactory(tracer, initializer.configuration)
 	if err != nil {
@@ -41,14 +41,14 @@ func (initializer *InstrumentationInitializer) Initialize() (*InstrumentationIni
 
 	metricSubmitter := metricSubmitterFactory.createMetricSubmitter()
 
-	heartbeatTracer := tracerFactory.CreateTracer(HeartbeatTraceType)
+	heartbeatTracer := tracerFactory.CreateTracer(HEARTBEAT_TRACE_TYPE)
 
 	if err != nil {
 		return nil, err
 	}
 
 	platformMetricSubmitter := NewPlatformMetricSubmitter(metricSubmitter)
-	heartbeatSender := newHeartbeatSender(heartbeatTracer, platformMetricSubmitter, heartbeatInterval)
+	heartbeatSender := newHeartbeatSender(heartbeatTracer, platformMetricSubmitter, _heartbeatInterval)
 	heartbeatSender.start()
 
 	return &InstrumentationInitializationResult{

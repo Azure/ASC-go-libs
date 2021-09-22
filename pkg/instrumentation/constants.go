@@ -1,5 +1,6 @@
 package instrumentation
 
+// Those are the default value for the tracer and the metric submitter.
 const (
 	EnvImageVersionKey        = "IMAGE_VERSION"
 	EnvResourceIDKey          = "AZURE_RESOURCE_ID"

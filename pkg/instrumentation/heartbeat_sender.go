@@ -6,11 +6,14 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// interface for Heartbeat sender
+// HeartbeatSender interface for Heartbeat sender
 type HeartbeatSender interface {
-	// Start sending heartbeat
+	// start sending heartbeat
 	start()
 }
+
+// HeartbeatSenderImpl implements HeartbeatSender interface
+var _ HeartbeatSender = (*HeartbeatSenderImpl)(nil)
 
 // HeartbeatSenderImpl holds the needed data for sending heartbeat
 type HeartbeatSenderImpl struct {

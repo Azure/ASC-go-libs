@@ -42,14 +42,14 @@ type metricSubmitterTestScenario struct {
 }
 
 func runTestScenario(t *testing.T, testScenario *metricSubmitterTestScenario) {
-	metricDir = "./metrics/"
-	os.Remove(metricDir + testScenario.componentName)
+	_metricDir = "./metrics/"
+	os.Remove(_metricDir + testScenario.componentName)
 
 	entry := log.WithFields(map[string]interface{}{
 		"Type": "test",
 	})
 
-	metricSubmitter := newMetricSubmitter(entry, NewMockMetricWriter(metricDir, testScenario.componentName), testScenario.releaseTrain, testScenario.componentName, testScenario.accountName, testScenario.namespaceName, testScenario.defaultDimensions)
+	metricSubmitter := newMetricSubmitter(entry, NewMockMetricWriter(_metricDir, testScenario.componentName), testScenario.releaseTrain, testScenario.componentName, testScenario.accountName, testScenario.namespaceName, testScenario.defaultDimensions)
 
 	metricSubmitter.SendMetric(testScenario.metricValue, testScenario.metric)
 

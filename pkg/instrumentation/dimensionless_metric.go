@@ -1,5 +1,8 @@
 package instrumentation
 
+// DimensionlessMetric implements Metric interface
+var _ Metric = (*DimensionlessMetric)(nil)
+
 // DimensionlessMetric implementation of Metric, for metric without dimensions
 type DimensionlessMetric struct {
 	metricName string

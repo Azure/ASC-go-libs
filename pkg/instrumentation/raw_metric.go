@@ -6,7 +6,7 @@ import (
 	"hash/fnv"
 )
 
-// Raw Metric - represents the data needed to send a new metric.
+// rawMetric - Raw Metric - represents the data needed to send a new metric.
 type rawMetric struct {
 	ComponentName string
 	ReleaseTrain  string
@@ -32,6 +32,8 @@ func newRawMetric(releaseTrain, componentName, mdmAccount, mdmNamespace, metricN
 	return m
 }
 
+// String returns rawMetric represented as json string
+// TODO - what interface did you meant to implement? fmt.Stringer?
 func (raw *rawMetric) String() string {
 	out, _ := json.Marshal(raw)
 	return string(out)
@@ -39,11 +41,17 @@ func (raw *rawMetric) String() string {
 
 func rawMetricFromString(rawMetricBytes []byte) *rawMetric {
 	data := rawMetric{}
-	json.Unmarshal(rawMetricBytes, &data)
+	err := json.Unmarshal(rawMetricBytes, &data)
+	if err != nil {
+		//TODO change the signature of the method to *rawMetric, err?
+		return nil
+	}
 
 	return &data
 }
 
+// GetDimensionsString returns the dimensaion as string.
+// TODO change dimensions to []*Dimension
 func GetDimensionsString(dimensions []Dimension) string {
 
 	// TODO: implement as util of array

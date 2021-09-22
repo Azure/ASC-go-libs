@@ -9,10 +9,14 @@ type MetricSubmitter interface {
 	// SendMetric - send metric by name with provided dimensions
 	SendMetric(value int, metric Metric)
 
+	// SendMetricToNamespace TODO doc
 	SendMetricToNamespace(value int, metric Metric, accountName, namespaceName string)
 }
 
-// MetricSubmitterImpl a metric submitter object - can be use to send metrics easily
+// MetricSubmitterImpl implements MetricSubmitter interface
+var _ MetricSubmitter = (*MetricSubmitterImpl)(nil)
+
+// MetricSubmitterImpl a metric submitter object - can be used to send metrics easily
 type MetricSubmitterImpl struct {
 	tracer            *log.Entry
 	releaseTrain      string
