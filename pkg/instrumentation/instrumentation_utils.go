@@ -8,7 +8,7 @@ const (
 	_stableReleaseTrain = "stable"
 )
 
-// InitializeFromEnv InstrumentationInitializationResult using environment variables.
+// InitializeFromEnv initialize instrumentation using environment variables and returns InstrumentationInitializationResult
 func InitializeFromEnv(componentName, mdmNamespace string) *InstrumentationInitializationResult {
 	configuration := NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace)
 

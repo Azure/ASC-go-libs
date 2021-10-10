@@ -4,7 +4,7 @@ package instrumentation
 const (
 	// EnvImageVersionKey Image version key.
 	EnvImageVersionKey = "IMAGE_VERSION"
-	// EnvResourceIDKey if the key of the id of the resource
+	// EnvResourceIDKey is the key of the id of the resource
 	EnvResourceIDKey = "AZURE_RESOURCE_ID"
 	// EnvResourceRegionKey is the key of the region of the resource.
 	EnvResourceRegionKey = "AZURE_RESOURCE_REGION"
