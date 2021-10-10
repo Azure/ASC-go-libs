@@ -9,7 +9,7 @@ type MetricSubmitter interface {
 	// SendMetric - send metric by name with provided dimensions
 	SendMetric(value int, metric Metric)
 
-	// SendMetricToNamespace TODO doc
+	// SendMetricToNamespace - sends metric by name with provided dimensions to specific namespace.
 	SendMetricToNamespace(value int, metric Metric, accountName, namespaceName string)
 }
 
@@ -23,12 +23,12 @@ type MetricSubmitterImpl struct {
 	accountName       string
 	namespaceName     string
 	componentName     string
-	defaultDimensions []Dimension
+	defaultDimensions []*Dimension
 	metricWriter      MetricWriter
 }
 
 // NewMetricSubmitter creates a new metric submitter
-func newMetricSubmitter(tracer *log.Entry, metricWriter MetricWriter, releaseTrain, componentName, accountName, namespaceName string, defaultDimensions []Dimension) MetricSubmitter {
+func newMetricSubmitter(tracer *log.Entry, metricWriter MetricWriter, releaseTrain, componentName, accountName, namespaceName string, defaultDimensions []*Dimension) MetricSubmitter {
 	c := &MetricSubmitterImpl{
 		tracer:            tracer,
 		releaseTrain:      releaseTrain,
@@ -55,8 +55,8 @@ func (metricSubmitter *MetricSubmitterImpl) SendMetricToNamespace(value int, met
 	metricSubmitter.metricWriter.Write(metricToSend)
 }
 
-func (metricSubmitter MetricSubmitterImpl) getDimensionsToSend(dimensions []Dimension) []Dimension {
-	mergedDimensions := make([]Dimension, len(metricSubmitter.defaultDimensions))
+func (metricSubmitter MetricSubmitterImpl) getDimensionsToSend(dimensions []*Dimension) []*Dimension {
+	mergedDimensions := make([]*Dimension, len(metricSubmitter.defaultDimensions))
 	copy(mergedDimensions, metricSubmitter.defaultDimensions)
 
 	for _, dimension := range dimensions {

@@ -8,7 +8,7 @@ const (
 	_stableReleaseTrain = "stable"
 )
 
-// InitializeFromEnv TODO
+// InitializeFromEnv InstrumentationInitializationResult using environment variables.
 func InitializeFromEnv(componentName, mdmNamespace string) *InstrumentationInitializationResult {
 	configuration := NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace)
 
@@ -22,7 +22,9 @@ func InitializeFromEnv(componentName, mdmNamespace string) *InstrumentationIniti
 	return instrumentationInitializationResults
 }
 
-// GetPlatformMdmAccount TODO
+// GetPlatformMdmAccount returns platform mdm account.
+// if region == "eastus2euap" (_canaryRegion) returns "RomeDetectionStage" (_stageMdmAccount),
+// else returns  "RomeDetection"( _prodMdmAccount)
 func GetPlatformMdmAccount(region string) string {
 	if region == _canaryRegion {
 		return _stageMdmAccount
@@ -31,7 +33,7 @@ func GetPlatformMdmAccount(region string) string {
 	}
 }
 
-// GetReleaseTrain TODO
+// GetReleaseTrain returns release train
 func GetReleaseTrain(region string) string {
 	if region == _canaryRegion {
 		return _stageReleaseTrain

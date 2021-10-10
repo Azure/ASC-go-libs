@@ -32,8 +32,8 @@ func (metric *EventBasedMetric) MetricName() string {
 }
 
 // MetricDimension - metric dimensions
-func (metric *EventBasedMetric) MetricDimension() []Dimension {
-	return []Dimension{
+func (metric *EventBasedMetric) MetricDimension() []*Dimension {
+	return []*Dimension{
 		{
 			Key:   _eventTypeDimensionKey,
 			Value: metric.eventType,

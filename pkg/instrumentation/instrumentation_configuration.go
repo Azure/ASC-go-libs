@@ -8,7 +8,7 @@ import (
 const (
 	_numberOfImageVersionComponents = 4
 	_defaultReleaseTrain            = "dev"
-	mcr                             = "mcr"
+	_mcr                            = "mcr"
 )
 
 var (
@@ -66,9 +66,8 @@ func NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace string) 
 }
 
 // GetDefaultDimensions - Get the default dimensions to be attached to each metric reports
-func (configuration *InstrumentationConfiguration) GetDefaultDimensions() []Dimension {
-	// TODO Change return value type to []*Dimension instead of []Dimension
-	return []Dimension{
+func (configuration *InstrumentationConfiguration) GetDefaultDimensions() []*Dimension {
+	return []*Dimension{
 		{
 			Key:   "ChartVersion",
 			Value: configuration.chartVersion,

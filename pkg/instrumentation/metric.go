@@ -5,8 +5,7 @@ type Metric interface {
 	// MetricName - getter for the metric name
 	MetricName() string
 	// MetricDimension - getter for the metric dimensions
-	// TODO Change to []*Dimension
-	MetricDimension() []Dimension
+	MetricDimension() []*Dimension
 }
 
 // Dimension A dimension in the metric

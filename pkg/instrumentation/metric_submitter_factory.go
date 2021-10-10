@@ -4,10 +4,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// TODO doc
 type imageName = string
-
-// TODO doc
 
 type imageVersion = string
 

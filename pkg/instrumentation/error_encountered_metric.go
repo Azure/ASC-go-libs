@@ -29,8 +29,8 @@ func (metric *ErrorEncounteredMetric) MetricName() string {
 	return ErrorEncounteredMetricName
 }
 
-func (metric *ErrorEncounteredMetric) MetricDimension() []Dimension {
-	return []Dimension{
+func (metric *ErrorEncounteredMetric) MetricDimension() []*Dimension {
+	return []*Dimension{
 		{
 			Key:   errorTypeDimensionKey,
 			Value: metric.errorType,
