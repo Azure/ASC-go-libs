@@ -17,7 +17,7 @@ var (
 type FileWriter interface {
 	// Write - write the interface to the file
 	Write(data interface{}) error
-	// Close the file.
+	// Close - close the file.
 	Close()
 }
 
@@ -29,13 +29,13 @@ var _ FileWriter = (*RollingFileWriter)(nil)
 type RollingFileWriter struct {
 	// filePath is the path to the file.
 	filePath string
-	// TODO
+	// minifier is used for minify the file - delete spaces between items.
 	minifier *minify.M
-	// Is the file that we are working on.
+	// file is the file that we are working on.
 	file *lumberjack.Logger
 }
 
-// NewRollingFileWriter - Ctor to create a new Rolling file writer
+// NewRollingFileWriter - constructor of Rolling file writer
 // maxSize - megabytes after which new file is created
 // maxBackups - number of backups
 // maxAge - max time in days before removing backup
@@ -60,7 +60,7 @@ type RollingFileConfiguration struct {
 	MaxAgeInDays int
 }
 
-// NewRollingFileConfiguration - Ctor to create a new Rolling file configuration
+// NewRollingFileConfiguration - constructor of Rolling file configuration
 func NewRollingFileConfiguration(maxSize, maxBackups, maxAgeInDays int) *RollingFileConfiguration {
 	return &RollingFileConfiguration{
 		MaxSize:      maxSize,

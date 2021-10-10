@@ -15,6 +15,7 @@ const (
 )
 
 var (
+	// TODO load it using viper.
 	_metricDir = "/var/log/azuredefender/metrics/"
 )
 
@@ -81,7 +82,7 @@ func (metricWriter *MetricWriterImpl) Write(metric *rawMetric) {
 
 func (metricWriter *MetricWriterImpl) startReporting() {
 	ticker := time.NewTicker(_reportingInterval)
-	for _ = range ticker.C {
+	for range ticker.C {
 		metricWriter.report()
 	}
 }
