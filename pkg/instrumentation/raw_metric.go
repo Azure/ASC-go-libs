@@ -2,23 +2,24 @@ package instrumentation
 
 import (
 	"encoding/json"
+	"strings"
 
 	"hash/fnv"
 )
 
-// Raw Metric - represents the data needed to send a new metric.
+// rawMetric - Raw Metric - represents the data needed to send a new metric.
 type rawMetric struct {
 	ComponentName string
 	ReleaseTrain  string
 	MdmAccount    string
 	MdmNamespace  string
 	MetricName    string
-	Dimensions    []Dimension
+	Dimensions    []*Dimension
 	Value         uint32
 }
 
 // newRawMetric Cto'r for metric
-func newRawMetric(releaseTrain, componentName, mdmAccount, mdmNamespace, metricName string, dimensions []Dimension, value uint32) *rawMetric {
+func newRawMetric(releaseTrain, componentName, mdmAccount, mdmNamespace, metricName string, dimensions []*Dimension, value uint32) *rawMetric {
 	m := &rawMetric{
 		ComponentName: componentName,
 		ReleaseTrain:  releaseTrain,
@@ -32,29 +33,33 @@ func newRawMetric(releaseTrain, componentName, mdmAccount, mdmNamespace, metricN
 	return m
 }
 
+// String returns rawMetric represented as json string. it is implemented for implement fmt.Stringer interface.
 func (raw *rawMetric) String() string {
 	out, _ := json.Marshal(raw)
 	return string(out)
 }
 
-func rawMetricFromString(rawMetricBytes []byte) *rawMetric {
+func rawMetricFromString(rawMetricBytes []byte) (*rawMetric, error) {
 	data := rawMetric{}
-	json.Unmarshal(rawMetricBytes, &data)
-
-	return &data
-}
-
-func GetDimensionsString(dimensions []Dimension) string {
-
-	// TODO: implement as util of array
-
-	res := ""
-
-	for _, dimension := range dimensions {
-		res += dimension.Key + dimension.Value
+	err := json.Unmarshal(rawMetricBytes, &data)
+	if err != nil {
+		return nil, err
 	}
 
-	return res
+	return &data, nil
+}
+
+// GetDimensionsString returns the dimensaion as string.
+func GetDimensionsString(dimensions []*Dimension) string {
+
+	var stringBuilder strings.Builder
+
+	for _, dimension := range dimensions {
+		stringBuilder.WriteString(dimension.Key)
+		stringBuilder.WriteString(dimension.Value)
+	}
+
+	return stringBuilder.String()
 }
 
 // GetHashExcludingValue - get hash of the metric object, excluding the metric value from the hashed value calculation.
@@ -63,7 +68,6 @@ func (raw *rawMetric) GetHashExcludingValue() uint32 {
 
 	str := raw.MetricName + raw.ComponentName + raw.MdmAccount + raw.MdmNamespace + raw.ReleaseTrain + GetDimensionsString(raw.Dimensions)
 
-	// TODO: move hash calculation to utils
 	h := fnv.New32a()
 	h.Write([]byte(str))
 	return h.Sum32()

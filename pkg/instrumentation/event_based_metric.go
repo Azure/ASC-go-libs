@@ -1,21 +1,24 @@
 package instrumentation
 
 const (
-	// Metric name for event read
-	eventReadMetricName = "EventRead"
+	// _eventReadMetricName is Metric name for event read
+	_eventReadMetricName = "EventRead"
 
-	// Metric name for event parsed
-	eventParsedMetricName = "EventParsed"
+	// _eventParsedMetricName is metric name for event parsed
+	_eventParsedMetricName = "EventParsed"
 
-	// Metric name for event enriched
-	eventEnrichedMetricName = "EventEnriched"
+	// _eventEnrichedMetricName is Metric name for event enriched
+	_eventEnrichedMetricName = "EventEnriched"
 
-	// Metric name for event collected
-	eventCollectedMetricName = "EventCollected"
+	// _eventCollectedMetricName is Metric name for event collected
+	_eventCollectedMetricName = "EventCollected"
 
-	// Dimension name
-	eventTypeDimensionKey = "EventType"
+	// _eventTypeDimensionKey is the Dimension name
+	_eventTypeDimensionKey = "EventType"
 )
+
+// EventBasedMetric implements Metric interface
+var _ Metric = (*EventBasedMetric)(nil)
 
 // EventBasedMetric implementation of Metric, for event based metric
 type EventBasedMetric struct {
@@ -29,10 +32,10 @@ func (metric *EventBasedMetric) MetricName() string {
 }
 
 // MetricDimension - metric dimensions
-func (metric *EventBasedMetric) MetricDimension() []Dimension {
-	return []Dimension{
+func (metric *EventBasedMetric) MetricDimension() []*Dimension {
+	return []*Dimension{
 		{
-			Key:   eventTypeDimensionKey,
+			Key:   _eventTypeDimensionKey,
 			Value: metric.eventType,
 		},
 	}
@@ -41,7 +44,7 @@ func (metric *EventBasedMetric) MetricDimension() []Dimension {
 // NewEventReadMetric Ctor for EventReadMetric
 func NewEventReadMetric(eventType string) *EventBasedMetric {
 	return &EventBasedMetric{
-		eventName: eventReadMetricName,
+		eventName: _eventReadMetricName,
 		eventType: eventType,
 	}
 }
@@ -49,7 +52,7 @@ func NewEventReadMetric(eventType string) *EventBasedMetric {
 // NewEventParsedMetric Ctor for EventParsedMetric
 func NewEventParsedMetric(eventType string) *EventBasedMetric {
 	return &EventBasedMetric{
-		eventName: eventParsedMetricName,
+		eventName: _eventParsedMetricName,
 		eventType: eventType,
 	}
 }
@@ -57,15 +60,15 @@ func NewEventParsedMetric(eventType string) *EventBasedMetric {
 // NewEventEnrichedMetric Ctor for EventEnrichedMetric
 func NewEventEnrichedMetric(eventType string) *EventBasedMetric {
 	return &EventBasedMetric{
-		eventName: eventEnrichedMetricName,
+		eventName: _eventEnrichedMetricName,
 		eventType: eventType,
 	}
 }
 
-// newEventCollectedMetric Ctor for EventCollectedMetric
+// NewEventCollectedMetric Ctor for EventCollectedMetric
 func NewEventCollectedMetric(eventType string) *EventBasedMetric {
 	return &EventBasedMetric{
-		eventName: eventCollectedMetricName,
+		eventName: _eventCollectedMetricName,
 		eventType: eventType,
 	}
 }

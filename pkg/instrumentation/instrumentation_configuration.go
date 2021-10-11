@@ -6,13 +6,13 @@ import (
 )
 
 const (
-	numberOfImageVersionComponents = 4
-	defaultReleaseTrain            = "dev"
-	mcr                            = "mcr"
+	_numberOfImageVersionComponents = 4
+	_defaultReleaseTrain            = "dev"
+	_mcr                            = "mcr"
 )
 
 var (
-	availableReleaseTrain = []string{"dev", "stage", "stable"}
+	_availableReleaseTrain = []string{"dev", "stage", "stable"}
 )
 
 // InstrumentationConfiguration for the instrumentation platform
@@ -48,7 +48,7 @@ func NewInstrumentationConfiguration(componentName, azureResourceID, region, clu
 	}
 }
 
-// NewInstrumentationConfiguration - Ctor to create a new instrumentation configuration from environment variables
+// NewInstrumentationConfigurationFromEnv - Ctor to create a new instrumentation configuration from environment variables
 func NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace string) *InstrumentationConfiguration {
 	azureResourceID := common.GetEnvVariableOrDefault(EnvResourceIDKey, Unknown)
 	region := common.GetEnvVariableOrDefault(EnvResourceRegionKey, Unknown)
@@ -66,8 +66,8 @@ func NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace string) 
 }
 
 // GetDefaultDimensions - Get the default dimensions to be attached to each metric reports
-func (configuration *InstrumentationConfiguration) GetDefaultDimensions() []Dimension {
-	return []Dimension{
+func (configuration *InstrumentationConfiguration) GetDefaultDimensions() []*Dimension {
+	return []*Dimension{
 		{
 			Key:   "ChartVersion",
 			Value: configuration.chartVersion,

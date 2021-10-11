@@ -10,12 +10,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-var (
-	metricDir = "/var/log/azuredefender/metrics/"
+const (
+	_reportingInterval = 1 * time.Minute
 )
 
-const (
-	reportingInterval = 1 * time.Minute
+var (
+	// TODO load it using viper.
+	_metricDir = "/var/log/azuredefender/metrics/"
 )
 
 // MetricWriter - interface for sending metrics
@@ -24,7 +25,10 @@ type MetricWriter interface {
 	Write(metric *rawMetric)
 }
 
-// MetricWriterImpl a metric sender object - can be use to send metrics easily
+// MetricWriterImpl implements MetricWriter interface
+var _ MetricWriter = (*MetricWriterImpl)(nil)
+
+// MetricWriterImpl a metric sender object - can be used to send metrics easily
 type MetricWriterImpl struct {
 	tracer     *log.Entry
 	fileWriter common.FileWriter
@@ -34,9 +38,11 @@ type MetricWriterImpl struct {
 
 // newAggregatedMetricWriter creates a new metric writer aggregator
 func newAggregatedMetricWriter(tracer *log.Entry, componentName string) (MetricWriter, error) {
-	os.MkdirAll(metricDir, os.ModePerm)
+	if err := os.MkdirAll(_metricDir, os.ModePerm); err != nil {
+		return nil, err
+	}
 
-	filePath := metricDir + componentName
+	filePath := _metricDir + componentName
 	_, err := os.OpenFile(filePath, os.O_CREATE, os.ModePerm)
 	if err != nil {
 		tracer.Error(err)
@@ -75,8 +81,8 @@ func (metricWriter *MetricWriterImpl) Write(metric *rawMetric) {
 }
 
 func (metricWriter *MetricWriterImpl) startReporting() {
-	ticker := time.NewTicker(reportingInterval)
-	for _ = range ticker.C {
+	ticker := time.NewTicker(_reportingInterval)
+	for range ticker.C {
 		metricWriter.report()
 	}
 }

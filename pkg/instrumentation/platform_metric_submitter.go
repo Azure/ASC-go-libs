@@ -3,7 +3,7 @@ package instrumentation
 import "github.com/Azure/Tivan-Libs/pkg/common"
 
 const (
-	platformNamespace = "Tivan.Platform"
+	_platformNamespace = "Tivan.Platform"
 )
 
 // PlatformMetricSubmitter - interface for sending platform metrics
@@ -12,7 +12,10 @@ type PlatformMetricSubmitter interface {
 	SendMetricToPlatform(value int, metric Metric)
 }
 
-// PlatformMetricSubmitterImpl a metric submitter object - can be use to send metrics easily (to platform account)
+// PlatformMetricSubmitterImpl implements PlatformMetricSubmitter interface
+var _ PlatformMetricSubmitter = (*PlatformMetricSubmitterImpl)(nil)
+
+// PlatformMetricSubmitterImpl a metric submitter object - can be used to send metrics easily (to platform account)
 type PlatformMetricSubmitterImpl struct {
 	underlinedMetricSubmitter MetricSubmitter
 	accountName               string
@@ -32,7 +35,7 @@ func NewPlatformMetricSubmitter(metricSubmitter MetricSubmitter) PlatformMetricS
 	return c
 }
 
-// SendMetric send metric (for platform submitter)
+// SendMetricToPlatform send metric (for platform submitter)
 func (platformMetricSubmitter *PlatformMetricSubmitterImpl) SendMetricToPlatform(value int, metric Metric) {
-	platformMetricSubmitter.underlinedMetricSubmitter.SendMetricToNamespace(value, metric, platformMetricSubmitter.accountName, platformNamespace)
+	platformMetricSubmitter.underlinedMetricSubmitter.SendMetricToNamespace(value, metric, platformMetricSubmitter.accountName, _platformNamespace)
 }

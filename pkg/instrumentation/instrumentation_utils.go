@@ -1,13 +1,14 @@
 package instrumentation
 
 const (
-	canaryRegion       = "eastus2euap"
-	prodMdmAccount     = "RomeDetection"
-	stageMdmAccount    = "RomeDetectionStage"
-	stageReleaseTrain  = "stage"
-	stableReleaseTrain = "stable"
+	_canaryRegion       = "eastus2euap"
+	_prodMdmAccount     = "RomeDetection"
+	_stageMdmAccount    = "RomeDetectionStage"
+	_stageReleaseTrain  = "stage"
+	_stableReleaseTrain = "stable"
 )
 
+// InitializeFromEnv initialize instrumentation using environment variables and returns InstrumentationInitializationResult
 func InitializeFromEnv(componentName, mdmNamespace string) *InstrumentationInitializationResult {
 	configuration := NewInstrumentationConfigurationFromEnv(componentName, mdmNamespace)
 
@@ -21,18 +22,22 @@ func InitializeFromEnv(componentName, mdmNamespace string) *InstrumentationIniti
 	return instrumentationInitializationResults
 }
 
+// GetPlatformMdmAccount returns platform mdm account.
+// if region == "eastus2euap" (_canaryRegion) returns "RomeDetectionStage" (_stageMdmAccount),
+// else returns  "RomeDetection"( _prodMdmAccount)
 func GetPlatformMdmAccount(region string) string {
-	if region == canaryRegion {
-		return stageMdmAccount
+	if region == _canaryRegion {
+		return _stageMdmAccount
 	} else {
-		return prodMdmAccount
+		return _prodMdmAccount
 	}
 }
 
+// GetReleaseTrain returns release train
 func GetReleaseTrain(region string) string {
-	if region == canaryRegion {
-		return stageReleaseTrain
+	if region == _canaryRegion {
+		return _stageReleaseTrain
 	} else {
-		return stableReleaseTrain
+		return _stableReleaseTrain
 	}
 }
