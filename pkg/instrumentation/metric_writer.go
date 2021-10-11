@@ -14,11 +14,6 @@ const (
 	_reportingInterval = 1 * time.Minute
 )
 
-var (
-	// TODO load it using viper.
-	_metricDir = "/var/log/azuredefender/metrics/"
-)
-
 // MetricWriter - interface for sending metrics
 type MetricWriter interface {
 	// Write - send metric by name with provided dimensions
@@ -37,12 +32,12 @@ type MetricWriterImpl struct {
 }
 
 // newAggregatedMetricWriter creates a new metric writer aggregator
-func newAggregatedMetricWriter(tracer *log.Entry, componentName string) (MetricWriter, error) {
-	if err := os.MkdirAll(_metricDir, os.ModePerm); err != nil {
+func newAggregatedMetricWriter(tracer *log.Entry, componentName string, dirPath string) (MetricWriter, error) {
+	if err := os.MkdirAll(dirPath, os.ModePerm); err != nil {
 		return nil, err
 	}
 
-	filePath := _metricDir + componentName
+	filePath := dirPath + componentName
 	_, err := os.OpenFile(filePath, os.O_CREATE, os.ModePerm)
 	if err != nil {
 		tracer.Error(err)

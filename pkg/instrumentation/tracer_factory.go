@@ -4,9 +4,14 @@ import (
 	"github.com/Azure/Tivan-Libs/pkg/common"
 	"io"
 	"os"
+	"path/filepath"
 
 	log "github.com/sirupsen/logrus"
 	"gopkg.in/natefinch/lumberjack.v2"
+)
+
+const (
+	_tracesDirName = "traces"
 )
 
 type TraceType string
@@ -31,13 +36,16 @@ var _ TracerFactory = (*TracerFactoryImpl)(nil)
 type TracerFactoryImpl struct {
 	instrumentationConfiguration *InstrumentationConfiguration
 	rollingFileConfiguration     *common.RollingFileConfiguration
+	logFileDir                   string
 }
 
 // NewTracerFactory tracer factory
 func NewTracerFactory(instrumentationConfiguration *InstrumentationConfiguration) TracerFactory {
+	tracesPath := filepath.Join(instrumentationConfiguration.DirPath, _tracesDirName)
 	m := &TracerFactoryImpl{
 		instrumentationConfiguration: instrumentationConfiguration,
 		rollingFileConfiguration:     common.GetDefaultFileConfiguration(),
+		logFileDir:                   tracesPath,
 	}
 
 	return m
@@ -50,7 +58,7 @@ func (tracerFactory *TracerFactoryImpl) SetRollingFileConfiguration(rollingFileC
 
 // DeleteTracerFile - delete the tracer's log file
 func (tracerFactory *TracerFactoryImpl) DeleteTracerFile() error {
-	logFilePath := logFileDir + tracerFactory.instrumentationConfiguration.componentName
+	logFilePath := tracerFactory.logFileDir + tracerFactory.instrumentationConfiguration.ComponentName
 	return os.Remove(logFilePath)
 }
 
@@ -64,7 +72,7 @@ func (tracerFactory *TracerFactoryImpl) CreateTracer(tracerType TraceType) *log.
 		},
 	})
 
-	logFilePath := logFileDir + tracerFactory.instrumentationConfiguration.componentName
+	logFilePath := tracerFactory.logFileDir + tracerFactory.instrumentationConfiguration.ComponentName
 
 	logFile := &lumberjack.Logger{
 		Filename:   logFilePath,
@@ -76,16 +84,16 @@ func (tracerFactory *TracerFactoryImpl) CreateTracer(tracerType TraceType) *log.
 	log.SetOutput(multiWriter)
 	log.SetLevel(log.TraceLevel)
 
-	componentVersion := tracerFactory.instrumentationConfiguration.imageName + ":" + tracerFactory.instrumentationConfiguration.imageVersion
+	componentVersion := tracerFactory.instrumentationConfiguration.ImageName + ":" + tracerFactory.instrumentationConfiguration.ImageVersion
 	entry := log.WithFields(map[string]interface{}{
 		"componentVersion":    componentVersion,
-		"nodeName":            tracerFactory.instrumentationConfiguration.nodeName,
-		"componentName":       tracerFactory.instrumentationConfiguration.componentName,
-		"releaseTrain":        tracerFactory.instrumentationConfiguration.releaseTrain,
-		"azureResourceID":     tracerFactory.instrumentationConfiguration.azureResourceID,
-		"chartVersion":        tracerFactory.instrumentationConfiguration.chartVersion,
-		"region":              tracerFactory.instrumentationConfiguration.region,
-		"clusterDistribution": tracerFactory.instrumentationConfiguration.clusterDistribution,
+		"NodeName":            tracerFactory.instrumentationConfiguration.NodeName,
+		"ComponentName":       tracerFactory.instrumentationConfiguration.ComponentName,
+		"ReleaseTrain":        tracerFactory.instrumentationConfiguration.ReleaseTrain,
+		"AzureResourceID":     tracerFactory.instrumentationConfiguration.AzureResourceID,
+		"ChartVersion":        tracerFactory.instrumentationConfiguration.ChartVersion,
+		"Region":              tracerFactory.instrumentationConfiguration.Region,
+		"ClusterDistribution": tracerFactory.instrumentationConfiguration.ClusterDistribution,
 		"type":                tracerType,
 	})
 
