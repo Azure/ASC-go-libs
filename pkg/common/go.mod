@@ -1,10 +1,9 @@
-module github.com/Azure/Tivan-Libs
+module github.com/Azure/Tivan-Libs/pkg/common
 
 go 1.16
 
 require (
-	github.com/BurntSushi/toml v0.3.1 // indirect
-	github.com/sirupsen/logrus v1.8.1
+	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/tdewolff/minify v2.3.6+incompatible
 	github.com/tdewolff/parse v2.3.4+incompatible // indirect
 	github.com/tdewolff/test v1.0.6 // indirect
