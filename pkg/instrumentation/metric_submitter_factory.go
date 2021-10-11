@@ -2,11 +2,12 @@ package instrumentation
 
 import (
 	"github.com/sirupsen/logrus"
+	"path/filepath"
 )
 
-type imageName = string
-
-type imageVersion = string
+const (
+	_metricsDirName = "metrics"
+)
 
 // MetricSubmitterFactory is factory for metric submitter
 type MetricSubmitterFactory interface {
@@ -26,7 +27,8 @@ type MetricSubmitterFactoryImpl struct {
 
 // NewMetricSubmitterFactory tracer factory
 func NewMetricSubmitterFactory(tracer *logrus.Entry, configuration *InstrumentationConfiguration) (MetricSubmitterFactory, error) {
-	metricWriter, err := newAggregatedMetricWriter(tracer, configuration.componentName)
+	metricsPath := filepath.Join(configuration.DirPath, _metricsDirName)
+	metricWriter, err := newAggregatedMetricWriter(tracer, configuration.ComponentName, metricsPath)
 	if err != nil {
 		tracer.Fatal(err)
 		return nil, err
@@ -43,10 +45,10 @@ func NewMetricSubmitterFactory(tracer *logrus.Entry, configuration *Instrumentat
 
 // createMetricSubmitter - Create general metric submitter
 func (metricSubmitterFactory *MetricSubmitterFactoryImpl) createMetricSubmitter() MetricSubmitter {
-	metricSubmitter := newMetricSubmitter(metricSubmitterFactory.tracer, metricSubmitterFactory.metricWriter, metricSubmitterFactory.configuration.releaseTrain,
-		metricSubmitterFactory.configuration.componentName,
-		metricSubmitterFactory.configuration.mdmAccount,
-		metricSubmitterFactory.configuration.mdmNamespace,
+	metricSubmitter := newMetricSubmitter(metricSubmitterFactory.tracer, metricSubmitterFactory.metricWriter, metricSubmitterFactory.configuration.ReleaseTrain,
+		metricSubmitterFactory.configuration.ComponentName,
+		metricSubmitterFactory.configuration.MdmAccount,
+		metricSubmitterFactory.configuration.MdmNamespace,
 		metricSubmitterFactory.configuration.GetDefaultDimensions())
 
 	return metricSubmitter

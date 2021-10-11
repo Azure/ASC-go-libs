@@ -1,11 +1,5 @@
 package instrumentation
 
-import "github.com/Azure/Tivan-Libs/pkg/common"
-
-const (
-	_platformNamespace = "Tivan.Platform"
-)
-
 // PlatformMetricSubmitter - interface for sending platform metrics
 type PlatformMetricSubmitter interface {
 	// SendMetricToPlatform - send metric by name with provided dimensions, to the platform account and namespace
@@ -19,17 +13,16 @@ var _ PlatformMetricSubmitter = (*PlatformMetricSubmitterImpl)(nil)
 type PlatformMetricSubmitterImpl struct {
 	underlinedMetricSubmitter MetricSubmitter
 	accountName               string
+	namespace                 string
 }
 
 // NewPlatformMetricSubmitter creates a new metric submitter that reports metrics to the platform namespace and account
-func NewPlatformMetricSubmitter(metricSubmitter MetricSubmitter) PlatformMetricSubmitter {
-
-	region := common.GetEnvVariableOrDefault(EnvResourceRegionKey, Unknown)
-	accountName := GetPlatformMdmAccount(region)
+func NewPlatformMetricSubmitter(metricSubmitter MetricSubmitter, mdmAccount string, namespace string) PlatformMetricSubmitter {
 
 	c := &PlatformMetricSubmitterImpl{
 		underlinedMetricSubmitter: metricSubmitter,
-		accountName:               accountName,
+		accountName:               mdmAccount,
+		namespace:                 namespace,
 	}
 
 	return c
@@ -37,5 +30,5 @@ func NewPlatformMetricSubmitter(metricSubmitter MetricSubmitter) PlatformMetricS
 
 // SendMetricToPlatform send metric (for platform submitter)
 func (platformMetricSubmitter *PlatformMetricSubmitterImpl) SendMetricToPlatform(value int, metric Metric) {
-	platformMetricSubmitter.underlinedMetricSubmitter.SendMetricToNamespace(value, metric, platformMetricSubmitter.accountName, _platformNamespace)
+	platformMetricSubmitter.underlinedMetricSubmitter.SendMetricToNamespace(value, metric, platformMetricSubmitter.accountName, platformMetricSubmitter.namespace)
 }

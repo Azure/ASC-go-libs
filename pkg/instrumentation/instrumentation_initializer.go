@@ -47,7 +47,7 @@ func (initializer *InstrumentationInitializer) Initialize() (*InstrumentationIni
 		return nil, err
 	}
 
-	platformMetricSubmitter := NewPlatformMetricSubmitter(metricSubmitter)
+	platformMetricSubmitter := NewPlatformMetricSubmitter(metricSubmitter, initializer.configuration.MdmAccount, initializer.configuration.PlatformNamespace)
 	heartbeatSender := newHeartbeatSender(heartbeatTracer, platformMetricSubmitter, _heartbeatInterval)
 	heartbeatSender.start()
 
