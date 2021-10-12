@@ -18,7 +18,7 @@ type rawMetric struct {
 	Value         uint32
 }
 
-// newRawMetric Cto'r for metric
+// newRawMetric constructor for metric
 func newRawMetric(releaseTrain, componentName, mdmAccount, mdmNamespace, metricName string, dimensions []*Dimension, value uint32) *rawMetric {
 	m := &rawMetric{
 		ComponentName: componentName,
