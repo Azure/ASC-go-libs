@@ -15,12 +15,12 @@ type InstrumentationConfiguration struct {
 	ImageVersion        string
 	ReleaseTrain        string
 	NodeName            string
-
-	MdmAccount   string
-	MdmNamespace string
 	// DirPath is the path to the directory that the files will be saved.
-	DirPath           string
-	PlatformNamespace string
+	DirPath              string
+	MdmAccount           string
+	MdmNamespace         string
+	PlatformMdmAccount   string
+	PlatformMdmNamespace string
 }
 
 // GetDefaultDimensions - Get the default dimensions to be attached to each metric reports

@@ -1,0 +1,16 @@
+# A static app's configuration file. Used for local debugging.
+instrumentation:
+  ComponentName: "..."
+  AzureResourceID: "..."
+  Region: "..."
+  ClusterDistribution: "..."
+  ChartVersion: "..."
+  ImageName: "..."
+  ImageVersion: "..."
+  ReleaseTrain: "..."
+  NodeName: "..."
+  DirPath: "..."
+  MdmAccount: "..."
+  MdmNamespace: "..."
+  PlatformMdmAccount: "..."
+  PlatformMsmNamespace: ".."

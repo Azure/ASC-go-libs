@@ -254,56 +254,56 @@ func runTestScenarioForHashing(t *testing.T, first, second *rawMetric, shouldBeE
 
 func TestHashOfSameMetricWithDiffrentValue(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(2)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(2)),
 		true)
 }
 
 func TestHashMetricWithDiffrentReleaseTrain(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("releaseTrain2", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("releaseTrain2", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentComponentName(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("ReleaseTrain", "componentName2", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "componentName2", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentMdmAccount(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
 		newRawMetric("ReleaseTrain", "ComponentName", "mdmAccount2", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentMdmNamespace(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "mdmNamespace2", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "mdmNamespace2", "metricName", []*Dimension{}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentMetricName(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName2", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName2", []*Dimension{}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentDimensions(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value"}}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value"}}, uint32(1)),
 		false)
 }
 
 func TestHashMetricWithDiffrentDimensionsValue(t *testing.T) {
 	runTestScenarioForHashing(t,
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value"}}, uint32(1)),
-		newRawMetric("ReleaseTrain", "ComponentName", "MdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value2"}}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value"}}, uint32(1)),
+		newRawMetric("ReleaseTrain", "ComponentName", "PlatformMdmAccount", "MdmNamespace", "metricName", []*Dimension{{Key: "ChartVersion", Value: "value2"}}, uint32(1)),
 		false)
 }

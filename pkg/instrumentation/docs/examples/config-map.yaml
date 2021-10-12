@@ -1,0 +1,25 @@
+# Default Configurations for AzureDefender-K8S-InClusterDefense.
+# This is a ConfigMap file.
+# Declare variables to be passed into configurations object of the project's files.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configuration-config-map
+# Application's configuration settings. Arranged by project's filesystem hierarchy
+data:
+  appConfig.yaml: |-
+    isntrumentation:
+      ComponentName: "..."
+      AzureResourceID: "..."
+      Region: "..."
+      ClusterDistribution: "..."
+      ChartVersion: "..."
+      ImageName: "..."
+      ImageVersion: "..."
+      ReleaseTrain: "..."
+      NodeName: "..."
+      DirPath: "..."
+      MdmAccount: "..."
+      MdmNamespace: "..."
+      PlatformMdmAccount: "..."
+      PlatformMsmNamespace: ".."
