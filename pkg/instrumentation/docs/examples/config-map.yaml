@@ -8,7 +8,7 @@ metadata:
 # Application's configuration settings. Arranged by project's filesystem hierarchy
 data:
   appConfig.yaml: |-
-    isntrumentation:
+    instrumentation:
       ComponentName: "..."
       AzureResourceID: "..."
       Region: "..."
