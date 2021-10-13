@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/Azure/Tivan-Libs/pkg/config"
-	"github.com/Azure/Tivan-Libs/pkg/instrumentation"
+	"github.com/Azure/ASC-go-libs/pkg/config"
+	"github.com/Azure/ASC-go-libs/pkg/instrumentation"
 	"log"
 	"os"
 )

@@ -1,6 +1,6 @@
 package fakes
 
-import "github.com/Azure/Tivan-Libs/pkg/instrumentation"
+import "github.com/Azure/ASC-go-libs/pkg/instrumentation"
 
 // FakeMetricSubmitter is fake metric submitter. it is used for tests.
 type FakeMetricSubmitter struct {

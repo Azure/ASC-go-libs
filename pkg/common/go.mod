@@ -1,4 +1,4 @@
-module github.com/Azure/Tivan-Libs/pkg/common
+module github.com/Azure/ASC-go-libs/pkg/common
 
 go 1.16
 
