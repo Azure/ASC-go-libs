@@ -1,4 +1,4 @@
-module github.com/Azure/Tivan-Libs/pkg/config
+module github.com/Azure/ASC-go-libs/pkg/config
 
 go 1.16
 

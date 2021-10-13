@@ -1,7 +1,7 @@
 package instrumentation
 
 import (
-	"github.com/Azure/Tivan-Libs/pkg/common"
+	"github.com/Azure/ASC-go-libs/pkg/common"
 	"io"
 	"os"
 	"path/filepath"
