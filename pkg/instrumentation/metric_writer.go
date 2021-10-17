@@ -3,6 +3,7 @@ package instrumentation
 import (
 	"github.com/Azure/ASC-go-libs/pkg/common"
 	"os"
+	"path/filepath"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -37,7 +38,7 @@ func newAggregatedMetricWriter(tracer *log.Entry, componentName string, dirPath 
 		return nil, err
 	}
 
-	filePath := dirPath + componentName
+	filePath := filepath.Join(dirPath, componentName)
 	_, err := os.OpenFile(filePath, os.O_CREATE, os.ModePerm)
 	if err != nil {
 		tracer.Error(err)

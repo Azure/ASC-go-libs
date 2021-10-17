@@ -58,7 +58,7 @@ func (tracerFactory *TracerFactoryImpl) SetRollingFileConfiguration(rollingFileC
 
 // DeleteTracerFile - delete the tracer's log file
 func (tracerFactory *TracerFactoryImpl) DeleteTracerFile() error {
-	logFilePath := tracerFactory.logFileDir + tracerFactory.instrumentationConfiguration.ComponentName
+	logFilePath := filepath.Join(tracerFactory.logFileDir, tracerFactory.instrumentationConfiguration.ComponentName)
 	return os.Remove(logFilePath)
 }
 
@@ -72,7 +72,7 @@ func (tracerFactory *TracerFactoryImpl) CreateTracer(tracerType TraceType) *log.
 		},
 	})
 
-	logFilePath := tracerFactory.logFileDir + tracerFactory.instrumentationConfiguration.ComponentName
+	logFilePath := filepath.Join(tracerFactory.logFileDir, tracerFactory.instrumentationConfiguration.ComponentName)
 
 	logFile := &lumberjack.Logger{
 		Filename:   logFilePath,
